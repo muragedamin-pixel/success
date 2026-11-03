@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For you, before your exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF5F1;
+    --paper-fold:#F3E8E1;
+    --plum:#5B3346;
+    --rose:#E7B4BE;
+    --ink:#2E2436;
+    --gold:#C9A15B;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#2A1F26;
+      --paper-fold:#352732;
+      --plum:#E7B4BE;
+      --rose:#C9899A;
+      --ink:#F3E8E1;
+      --gold:#D9B878;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;}
+  body{
+    background: radial-gradient(ellipse at 50% 20%, var(--paper-fold), var(--paper) 70%);
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* --- sealed note --- */
+  .seal-wrap{
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    background:none;
+    border:none;
+    padding:0;
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .seal-wrap:focus-visible{ outline:2px solid var(--gold); outline-offset:6px; border-radius:50%; }
+  .envelope{
+    width:220px;
+    height:150px;
+    background:var(--paper-fold);
+    border:1px solid color-mix(in srgb, var(--plum) 18%, transparent);
+    border-radius:4px;
+    position:relative;
+    box-shadow:0 18px 40px -20px color-mix(in srgb, var(--ink) 35%, transparent);
+  }
+  .envelope::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(135deg, transparent 49.3%, color-mix(in srgb, var(--plum) 10%, transparent) 49.3% 50.7%, transparent 50.7%),
+      linear-gradient(45deg, transparent 49.3%, color-mix(in srgb, var(--plum) 10%, transparent) 49.3% 50.7%, transparent 50.7%);
+  }
+  .seal{
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:52px; height:52px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--gold) 70%, white), var(--gold) 55%, color-mix(in srgb, var(--gold) 80%, black));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    color:var(--paper);
+    font-size:20px;
+    box-shadow:0 6px 14px -4px color-mix(in srgb, black 40%, transparent);
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{ transform:translate(-50%,-50%) scale(1); }
+    50%{ transform:translate(-50%,-50%) scale(1.045); }
+  }
+  .prompt{
+    font-size:14px;
+    letter-spacing:.01em;
+    color:color-mix(in srgb, var(--ink) 65%, transparent);
+  }
+  .stage.open .seal-wrap{
+    opacity:0;
+    transform:scale(.92);
+    pointer-events:none;
+    position:absolute;
+  }
+
+  /* --- letter --- */
+  .letter{
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    width:100%;
+    transition:opacity .7s ease .1s, max-height .9s ease;
+  }
+  .stage.open .letter{
+    opacity:1;
+    max-height:900px;
+  }
+  .letter-inner{
+    background:var(--paper);
+    border:1px solid color-mix(in srgb, var(--plum) 14%, transparent);
+    border-radius:6px;
+    padding:40px 34px 34px;
+    box-shadow:0 24px 60px -24px color-mix(in srgb, var(--ink) 30%, transparent);
+  }
+  .letter h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:26px;
+    line-height:1.3;
+    margin:0 0 20px;
+    color:var(--plum);
+  }
+  .letter p{
+    font-family:'Fraunces',serif;
+    font-size:17px;
+    line-height:1.75;
+    margin:0 0 16px;
+    color:var(--ink);
+  }
+  .divider{
+    width:36px; height:1px;
+    background:var(--rose);
+    margin:24px 0;
+    opacity:0;
+    animation: fadeIn .8s ease forwards;
+    animation-delay:1.1s;
+  }
+  .ps{
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    letter-spacing:.01em;
+    color:color-mix(in srgb, var(--plum) 80%, transparent);
+    opacity:0;
+    transform:translateY(6px);
+    animation: fadeUp .7s ease forwards;
+    animation-delay:1.4s;
+  }
+  .sign{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--plum);
+    margin-top:22px;
+    opacity:0;
+    animation: fadeIn .7s ease forwards;
+    animation-delay:1s;
+  }
+  @keyframes fadeIn{ to{ opacity:1; } }
+  @keyframes fadeUp{ to{ opacity:1; transform:translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce){
+    .seal{ animation:none; }
+    .letter, .stage .seal-wrap, .divider, .ps, .sign{ transition:none; animation:none; opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <button class="seal-wrap" id="sealBtn" aria-label="Open the note">
+    <div class="envelope"><div class="seal">S</div></div>
+    <!-- EDIT: change this line, or remove it entirely -->
+    <div class="prompt">tap the seal before you go in</div>
+  </button>
+
+  <div class="letter">
+    <div class="letter-inner">
+      <!-- EDIT: headline -->
+      <h1>Before you walk in today —</h1>
+
+      <!-- EDIT: body paragraphs. Keep them short; this is a letter, not a speech. -->
+      <p>You've already done the hard part. All those late nights, the notes, the re-reading the same page until it finally clicked — that's already yours. Today is just you showing it.</p>
+
+      <p>Whatever's on that paper, you know more than you think you do right now. Breathe, read carefully, and trust the person who put in the work. That's you.</p>
+
+      <div class="divider"></div>
+
+      <p class="ps"><!-- EDIT: small closing line --> P.S. — I'm so proud of you, exam or no exam. Come find me after and tell me everything.</p>
+
+      <!-- EDIT: sign-off -->
+      <div class="sign">— yours, always</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const sealBtn = document.getElementById('sealBtn');
+  function openNote(){
+    stage.classList.add('open');
+    sealBtn.setAttribute('aria-expanded','true');
+  }
+  sealBtn.addEventListener('click', openNote);
+  sealBtn.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openNote(); }
+  });
+</script>
+
+</body>
+</html>
