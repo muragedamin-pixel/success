@@ -17,9 +17,9 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #210817, #581b36, #a34463);
-    color: white;
-    font-family: 'Poppins', sans-serif;
+    background:  #10090d;
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,12 +27,71 @@ body {
     padding: 25px 15px;
 }
 
-.hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+:root {
+    --wine: #650e27;
+    --rose: #d58a9c;
+    --cream: #f8eadd;
+    --gold: #c7a56b;
+}
+
+
+/* BACKGROUND */
+
+.scene {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    z-index: 0;
+    background:
+      radial-gradient(ellipse at center, #411526 0%, #1b0d15 48%, #090609 100%);
+}
+
+.scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, transparent 30%, #000 120%);
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: #a42c50;
+    filter: blur(150px);
+    opacity: .2;
+    animation: breathe 5s infinite alternate;
+}
+
+@keyframes breathe {
+    to { transform: scale(1.5); opacity: .4; }
+}
+
+/* FLOATING PETALS */
+
+.petal {
+    position: absolute;
+    top: -50px;
+    color: #d75c7c;
+    font-size: 20px;
+    opacity: .7;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
+    }
+    15% { opacity: .8; }
+    100% {
+        transform: translateY(115vh) rotate(720deg);
+        
 }
 
 .heart {
@@ -322,18 +381,25 @@ button:hover {
 <script>
 
 // Floating hearts
-const hearts = document.getElementById("hearts");
+function createPetal() {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    petal.innerHTML = Math.random() > .5 ? "✿" : "♥";
 
-for (let i = 0; i < 25; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "♥";
-    heart.style.left = Math.random() * 100 + "%";
-    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
-    heart.style.animationDelay = Math.random() * 8 + "s";
-    heart.style.fontSize = (12 + Math.random() * 20) + "px";
-    hearts.appendChild(heart);
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration =
+        (6 + Math.random() * 9) + "s";
+
+    petal.style.fontSize =
+        (12 + Math.random() * 20) + "px";
+
+    document.body.appendChild(petal);
+
+    setTimeout(() => petal.remove(), 15000);
 }
+
+setInterval(createPetal, 400);
+
 
 // Open letter
 function openLetter() {
