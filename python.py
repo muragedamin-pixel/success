@@ -1,2 +1,5 @@
 print("My Beautiful Princess")
 print("How Are You")
+input=("Are you good my love? ")
+input=("Did you miss me today? ")
+input=("On a scale of 1-10, how much do you miss me? ")
