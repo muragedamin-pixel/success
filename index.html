@@ -466,8 +466,13 @@ footer {
 
     </div>
 
-    <button class= MyLove href= 'python.py'>LETS FAIR</button>
+    <button class=MyLove onclick="runPython()">
+        HELLO THERE
+    </button>
+
+    <h2 id="result">Waiting...</h2>
 </section>
+   
 
 <footer>
     MADE WITH LOVE · JUST FOR YOU ❤️😘
@@ -539,6 +544,15 @@ function showFinal() {
     });
 }
 
+        async function runPython() {
+
+            const response = await fetch('/run-python');
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText =
+                data.message; 
+}
 </script>
 
 </body>
