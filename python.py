@@ -1,3 +1,9 @@
+def my_function():
+
+    message = "Python is successfully connected!"
+
+    return message
+
 print("My Beautiful Princess")
 print("How Are You")
 
