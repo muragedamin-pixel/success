@@ -1,21 +1,20 @@
-
-from flask import Flask, render_template, jsonify
+from flask import Flask, jsonify
+import python
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return "Website is running!"
 
 @app.route("/run-python")
 def run_python():
 
-    message = "Hello! Python is now connected to HTML."
+    result = python.my_function()
 
     return jsonify({
-        "success": True,
-        "message": message
+        "result": result
     })
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run()
